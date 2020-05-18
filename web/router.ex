@@ -2,21 +2,28 @@ defmodule Discuss.Router do
   use Discuss.Web, :router
 
   pipeline :browser do
-    plug :accepts, ["html"]
-    plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug(:accepts, ["html"])
+    plug(:fetch_session)
+    plug(:fetch_flash)
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/", Discuss do
-    pipe_through :browser # Use the default browser stack
+    # Use the default browser stack
+    pipe_through(:browser)
 
-    get "/", PageController, :index
+    # get("/", TopicController, :index)
+    # get("/topics/new", TopicController, :new)
+    # post("/topics", TopicController, :create)
+    # get("/topics/:id", TopicController, :edit)
+    # put("/topics/:id", TopicController, :update)
+
+    resources("/", TopicController)
   end
 
   # Other scopes may use custom stacks.
